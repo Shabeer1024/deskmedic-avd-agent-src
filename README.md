@@ -272,6 +272,13 @@ Without Graph permission, identity checks report **"NOT CHECKED: needs User.Read
 
 ### Architecture
 
+![DeskMedic architecture: console, FastAPI pipeline, read and change paths into Azure](docs/architecture.svg)
+
+Reads and changes leave the backend by different routes. Checks go through the diagnostic provider with read-only roles. Changes go only through the approval gate to Azure Automation, which runs a published runbook by name. Azure OpenAI only classifies and ranks.
+
+<details>
+<summary>Simplified flow (Mermaid)</summary>
+
 ```mermaid
 flowchart TB
     subgraph Console["🖥️ DeskMedic console (no build step)"]
@@ -301,6 +308,8 @@ flowchart TB
     Triage -.-> AOAI
     Rules -.-> AOAI
 ```
+
+</details>
 
 ### The core design decision
 
